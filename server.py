@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
-users = {}
+users = {1: {"Name": "Jordan", "Language": "English"}, 2: {"Name": "User 2", "Language": "English"}}
 
 movies_data = pandas.read_csv("Data/movies.csv")
 ratings_data = pandas.read_csv("Data/ratings.csv")
@@ -59,10 +59,9 @@ def get_ratings():
     return jsonify({"pages": pages, "result": result})
 
 
-@app.route('/users')
+@app.route('/users', methods=['GET'])
 def show_users():
-    # Serve index template
-    return render_template('index.html', name='Jordan')
+    return jsonify(users)
 
 
 if __name__ == "__main__":

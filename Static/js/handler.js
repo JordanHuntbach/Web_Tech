@@ -1,15 +1,29 @@
 var activeIndex;
 var per_page;
+var currentView;
+var currentUserID;
 
 window.onload = function() {
 	activeIndex = 1;
-	per_page = 100;
+	per_page = 20;
+	currentView = "Movies";
+	getUsers();
 	updateMovies(1);
-
-	$(function(){
-    	$('.selectpicker').selectpicker();
-	});
+	currentUserID = -1;
 };
+
+function getUsers() {
+	$.ajax({
+		url: '/users',
+		type: 'GET',
+		success: function(response){
+
+		},
+		error: function(error){
+			console.log(error);
+		}
+	});
+}
 
 function updateMovies(index) {
 	activeIndex = index;
@@ -36,14 +50,20 @@ function updateMovies(index) {
 }
 
 function updatePerPage(newValue) {
+	var currentItem = (per_page) * (activeIndex - 1);
+    activeIndex = 1 + Math.floor(currentItem / newValue);
+
 	per_page = newValue;
 	$('#perPage').text(newValue);
 	var wrapper = $('#perPageList');
     wrapper.find('button').removeClass('active');
     wrapper.find('button:contains("' + newValue + '")').first().addClass('active');
-	activeIndex = 1;
-	updateMovies(1);
-	updateRatings(1);
+
+	if (currentView === "Movies") {
+		updateMovies(activeIndex);
+	} else if (currentView === "Ratings") {
+		updateRatings(activeIndex);
+	}
 }
 
 function updatePageButtons(pages, type) {
@@ -122,6 +142,7 @@ function updateRatings(index) {
 }
 
 function showMovies() {
+	currentView = "Movies";
 	updateMovies(1);
 	$('#ratingsTab').addClass('hidden');
 	$('#moviesTab').removeClass('hidden');
@@ -130,6 +151,7 @@ function showMovies() {
 }
 
 function showRatings() {
+	currentView = "Ratings";
 	updateRatings(1);
 	$('#moviesTab').addClass('hidden');
 	$('#ratingsTab').removeClass('hidden');
@@ -138,6 +160,7 @@ function showRatings() {
 }
 
 function showAccounts() {
+	currentView = "Accounts";
 	$('#ratingsTab').addClass('hidden');
 	$('#moviesTab').addClass('hidden');
 	$('#pageBar').addClass('hidden');

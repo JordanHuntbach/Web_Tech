@@ -1,11 +1,17 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-<script src="static/js/handler.js"></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-<link rel="stylesheet" href="static/css/all.css">
+<!doctype html>
 
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="static/js/handler.js"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/css/all.css">
+
     <title>Movies</title>
 </head>
 <body>
@@ -73,13 +79,13 @@
 
         <div class="btn-group" role="group">
             <button id="perPage" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                100
+                20
             </button>
             <div id="perPageList" class="dropdown-menu" aria-labelledby="perPage">
                 <button class="dropdown-item" onclick="updatePerPage(10)">10</button>
-                <button class="dropdown-item" onclick="updatePerPage(20)">20</button>
+                <button class="dropdown-item active" onclick="updatePerPage(20)">20</button>
                 <button class="dropdown-item" onclick="updatePerPage(50)">50</button>
-                <button class="dropdown-item active" onclick="updatePerPage(100)">100</button>
+                <button class="dropdown-item" onclick="updatePerPage(100)">100</button>
                 <button class="dropdown-item" onclick="updatePerPage(200)">200</button>
             </div>
         </div>
@@ -113,7 +119,41 @@
         </table>
     </div>
 
-    <div id="accountsTab" class="d-flex justify-content-center hidden">
+    <div id="accountsTab" class="hidden">
+        <div class="container my-3">
+            <div class="row justify-content-center">
+                <div class="col-md-9 col-lg-6">
+                    <label for="saveUsername">Change Username</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="saveUsername">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-dark" type="button" id="saveUsername">Save Username</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <div class="row my-3 justify-content-center">
+                <div class="col-md-9 col-lg-6">
+                    <button class="btn btn-danger" id="deleteUser" style="width: 100%">Delete Current User</button>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-9 col-lg-6">
+                    <label for="addUser">Create New User</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addUser">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-dark" type="button" id="addUser">Add User</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            Your reviews (add, edit, delete).
+        </div>
     </div>
 </body>
