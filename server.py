@@ -21,8 +21,9 @@ def output():
 
 @app.route('/movies', methods=['GET'])
 def get_movies():
-    index = request.args.get('index')
-    per_page = request.args.get('per_page')
+    index = int(request.args.get('index')) - 1
+    per_page = int(request.args.get('per_page'))
+    pages = len(movies_data) // per_page + 1
     result = []
     count = 0
     low = index * per_page
@@ -30,23 +31,32 @@ def get_movies():
     result_range = range(low, high)
     for index, row in movies_data.iterrows():
         if count in result_range:
-            result.append({"ID": row["movieId"]})
-            result[index]["Title"] = row["title"]
-            result[index]["Genres"] = row["genres"]
+            new = {"ID": row["movieId"], "Title": row["title"], "Genres": row["genres"]}
+            result.append(new)
         elif count > high:
             break
         count += 1
-    return jsonify(result)
+    return jsonify({"pages": pages, "result": result})
 
 
 @app.route('/ratings', methods=['GET'])
 def get_ratings():
+    index = int(request.args.get('index')) - 1
+    per_page = int(request.args.get('per_page'))
+    pages = len(ratings_data) // per_page + 1
     result = []
+    count = 0
+    low = index * per_page
+    high = low + per_page
+    result_range = range(low, high)
     for index, row in ratings_data.iterrows():
-        result.append({"User ID": row["userId"]})
-        result[index]["Movie ID"] = row["movieId"]
-        result[index]["Rating"] = row["rating"]
-    return jsonify(result)
+        if count in result_range:
+            new = {"User ID": row["userId"], "Movie ID": row["movieId"], "Rating": row["rating"]}
+            result.append(new)
+        elif count > high:
+            break
+        count += 1
+    return jsonify({"pages": pages, "result": result})
 
 
 @app.route('/users')

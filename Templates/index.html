@@ -1,7 +1,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script src="static/js/handler.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <link rel="stylesheet" href="static/css/all.css">
+
 <head>
     <title>Movies</title>
 </head>
@@ -11,48 +14,88 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <button class="btn btn-dark" onclick="showMovies()">List of Movies <span class="sr-only">(current)</span></button>
                 <button class="btn btn-dark" onclick="showRatings()">List of Ratings</button>
                 <button class="btn btn-dark">Account Management</button>
+            </div>
+            <div class="d-flex flex-row">
+                <span class="navbar-text">
+                Hello {{name}}.
+                </span>
                 <div class="nav-item">
                     <button class="btn btn-dark dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         User Select
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                        <button class="dropdown-item active" type="button">Jordan</button>
+                        <button class="dropdown-item" type="button">Test</button>
+                        <button class="dropdown-item" type="button">User 3</button>
                     </div>
                 </div>
             </div>
-            <span class="navbar-text">
-                Hello {{name}}.
-            </span>
+
         </div>
     </nav>
 
-    <table id="moviesTable" class="table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Movie</th>
-                <th>Genre(s)</th>
-            </tr>
-        </thead>
-        <tbody id="moviesTableBody">
-        </tbody>
-    </table>
-    <table id="ratingsTable" class="hidden table-striped">
-        <thead>
-            <tr>
-                <th>User ID</th>
-                <th>Movie ID</th>
-                <th>Rating</th>
-            </tr>
-        </thead>
-        <tbody id="ratingsTableBody">
-        </tbody>
-    </table>
+    <div class="toolbar my-2 d-flex justify-content-center" role="toolbar" aria-label="Button group with nested dropdown">
+
+        <div class="middle-text mr-2">
+            Page:
+        </div>
+
+        <div id="pageButtons"  class="btn-group mr-2" role="group" aria-label="Second group">
+            <button type="button" class="btn btn-outline-secondary active">1</button>
+            <button type="button" class="btn btn-outline-secondary">2</button>
+            <button type="button" class="btn btn-outline-secondary">3</button>
+            <button type="button" class="btn btn-outline-secondary disabled">...</button>
+            <button onclick="updateMovies(10)" type="button" class="btn btn-outline-secondary">10</button>
+        </div>
+
+        <div class="middle-text mr-2">
+            Results per page:
+        </div>
+
+        <div class="btn-group" role="group">
+            <button id="perPage" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                100
+            </button>
+            <div id="perPageList" class="dropdown-menu" aria-labelledby="perPage">
+                <button class="dropdown-item" onclick="updatePerPage(10)">10</button>
+                <button class="dropdown-item" onclick="updatePerPage(20)">20</button>
+                <button class="dropdown-item" onclick="updatePerPage(50)">50</button>
+                <button class="dropdown-item active" onclick="updatePerPage(100)">100</button>
+                <button class="dropdown-item" onclick="updatePerPage(200)">200</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="moviesTab" class="d-flex justify-content-center">
+        <table id="moviesTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Movie</th>
+                    <th>Genre(s)</th>
+                </tr>
+            </thead>
+            <tbody id="moviesTableBody">
+            </tbody>
+        </table>
+    </div>
+
+    <div id="ratingsTab" class="d-flex justify-content-center hidden">
+        <table id="ratingsTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Movie ID</th>
+                    <th>Rating</th>
+                </tr>
+            </thead>
+            <tbody id="ratingsTableBody">
+            </tbody>
+        </table>
+    </div>
 </body>

@@ -1,7 +1,12 @@
 .hidden {
-    display: none;
+    display: none!important;
 }
 
 th {
     text-align: left;
+}
+
+.middle-text {
+    display: flex;
+    align-items: center;
 }
