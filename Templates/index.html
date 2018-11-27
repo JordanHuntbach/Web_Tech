@@ -30,18 +30,15 @@
 
             <div class="nav navbar-nav navbar-nav-right">
 
-                <span class="navbar-text">
-                    Hello {{name}}.
+                <span id="message" class="navbar-text">
                 </span>
 
                 <div class="dropdown">
                     <button class="btn btn-dark dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         User Select
                     </button>
-                    <div class="dropdown-menu" role="menu" aria-labelledby="navbarDropdownMenuLink">
-                        <button class="dropdown-item active" type="button">Jordan</button>
-                        <button class="dropdown-item" type="button">Test</button>
-                        <button class="dropdown-item" type="button">User 3</button>
+                    <div id="userSelector" class="dropdown-menu" role="menu" aria-labelledby="navbarDropdownMenuLink">
+
                     </div>
                 </div>
 
@@ -123,30 +120,40 @@
         <div class="container my-3">
             <div class="row justify-content-center">
                 <div class="col-md-9 col-lg-6">
-                    <label for="saveUsername">Change Username</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="saveUsername">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-dark" type="button" id="saveUsername">Save Username</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row my-3 justify-content-center">
-                <div class="col-md-9 col-lg-6">
-                    <button class="btn btn-danger" id="deleteUser" style="width: 100%">Delete Current User</button>
-                </div>
-            </div>
-
-            <div class="row justify-content-center">
-                <div class="col-md-9 col-lg-6">
                     <label for="addUser">Create New User</label>
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addUser">
                         <div class="input-group-append">
                             <button class="btn btn-outline-dark" type="button" id="addUser">Add User</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="changeOrDelete">
+                <div class="row my-3 justify-content-center">
+                    <div class="col-md-9 col-lg-6">
+                        <label for="saveUsername">Change Username</label>
+                        <div class="input-group">
+                            <input id="nameEdit" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="saveUsername">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-dark" type="button" id="saveUsername">Save Username</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-md-9 col-lg-6">
+                        <button class="btn btn-danger" id="deleteUser" style="width: 100%">Delete Current User</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pleaseSignIn" class="hidden">
+                <div class="row my-3 justify-content-center">
+                    <div class="col-md-9 col-lg-6" style="text-align: center;">
+                        Please select a user account from the selector in the top-left corner.
                     </div>
                 </div>
             </div>

@@ -1,9 +1,5 @@
-from flask import Flask, render_template, request, redirect, Response, jsonify
-import random
-import json
+from flask import Flask, render_template, request, jsonify
 import pandas
-import numpy
-import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
@@ -16,7 +12,7 @@ ratings_data = pandas.read_csv("Data/ratings.csv")
 @app.route('/')
 def output():
     # Serve index template
-    return render_template('index.html', name='Jordan')
+    return render_template('index.html')
 
 
 @app.route('/movies', methods=['GET'])

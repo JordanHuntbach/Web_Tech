@@ -2,6 +2,8 @@ var activeIndex;
 var per_page;
 var currentView;
 var currentUserID;
+var currentUser;
+var users;
 
 window.onload = function() {
 	activeIndex = 1;
@@ -17,7 +19,13 @@ function getUsers() {
 		url: '/users',
 		type: 'GET',
 		success: function(response){
-
+            users = response;
+            var wrapper = $('#userSelector');
+            wrapper.empty();
+            for (var i in response) {
+                var user = response[i];
+                wrapper.append('<button onclick="switchUser(' + i + ')" class="dropdown-item" type="button">' + user["Name"] + '</button>');
+            }
 		},
 		error: function(error){
 			console.log(error);
@@ -165,4 +173,34 @@ function showAccounts() {
 	$('#moviesTab').addClass('hidden');
 	$('#pageBar').addClass('hidden');
 	$('#accountsTab').removeClass('hidden');
+
+	if (currentUserID === -1) {
+	    $('#changeOrDelete').addClass('hidden');
+	    $('#pleaseSignIn').removeClass('hidden');
+    } else {
+	    $('#changeOrDelete').removeClass('hidden');
+	    $('#pleaseSignIn').addClass('hidden');
+	    $('#nameEdit').val(currentUser["Name"]);
+    }
+}
+
+function switchUser(id) {
+    currentUserID = id;
+    currentUser = users[id];
+    var name = currentUser["Name"];
+    $('#message').text("Hello " + name + "!");
+    if (currentView === "Accounts") {
+        showAccounts();
+    }
+    var wrapper = $('#userSelector');
+    wrapper.find('button').removeClass('active');
+    wrapper.find('button:contains("' + name + '")').first().addClass('active');
+}
+
+function addUser(name) {
+    //TODO
+}
+
+function changeName(id, newName) {
+    //TODO
 }
