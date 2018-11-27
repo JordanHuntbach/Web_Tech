@@ -15,23 +15,41 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
+
+            <div class="nav navbar-nav">
                 <button class="btn btn-dark" onclick="showMovies()">List of Movies <span class="sr-only">(current)</span></button>
                 <button class="btn btn-dark" onclick="showRatings()">List of Ratings</button>
-                <button class="btn btn-dark">Account Management</button>
+                <button class="btn btn-dark" onclick="showAccounts()">Account Management</button>
             </div>
-            <div class="d-flex flex-row">
+
+            <div class="nav navbar-nav navbar-nav-right">
+
                 <span class="navbar-text">
-                Hello {{name}}.
+                    Hello {{name}}.
                 </span>
-                <div class="nav-item">
+
+                <div class="dropdown">
                     <button class="btn btn-dark dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         User Select
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                    <div class="dropdown-menu" role="menu" aria-labelledby="navbarDropdownMenuLink">
                         <button class="dropdown-item active" type="button">Jordan</button>
                         <button class="dropdown-item" type="button">Test</button>
                         <button class="dropdown-item" type="button">User 3</button>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button class="btn btn-dark dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        <img id="languageIcon" src="static/images/uk.png" alt="Language"/>
+                        <span class="caret"></span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" role="menu" style="min-width:0">
+                        <button class="dropdown-item language active"><img class="mr-2" src="static/images/uk-small.png" alt="English"/>English</button>
+                        <button class="dropdown-item language"><img class="mr-2" src="static/images/fr-small.png" alt="French"/>French</button>
+                        <button class="dropdown-item language"><img class="mr-2" src="static/images/de-small.png" alt="German"/>German</button>
+                        <button class="dropdown-item language"><img class="mr-2" src="static/images/es-small.png" alt="Spanish"/>Spanish</button>
+                        <button class="dropdown-item language"><img class="mr-2" src="static/images/cn-small.png" alt="Chinese"/>Chinese</button>
                     </div>
                 </div>
             </div>
@@ -39,18 +57,14 @@
         </div>
     </nav>
 
-    <div class="toolbar my-2 d-flex justify-content-center" role="toolbar" aria-label="Button group with nested dropdown">
+    <div id="pageBar" class="toolbar my-2 d-flex justify-content-center" role="toolbar" aria-label="Button group with nested dropdown">
 
         <div class="middle-text mr-2">
             Page:
         </div>
 
-        <div id="pageButtons"  class="btn-group mr-2" role="group" aria-label="Second group">
-            <button type="button" class="btn btn-outline-secondary active">1</button>
-            <button type="button" class="btn btn-outline-secondary">2</button>
-            <button type="button" class="btn btn-outline-secondary">3</button>
-            <button type="button" class="btn btn-outline-secondary disabled">...</button>
-            <button onclick="updateMovies(10)" type="button" class="btn btn-outline-secondary">10</button>
+        <div id="pageButtons" class="btn-group mr-2" role="group" aria-label="Second group">
+
         </div>
 
         <div class="middle-text mr-2">
@@ -97,5 +111,9 @@
             <tbody id="ratingsTableBody">
             </tbody>
         </table>
+    </div>
+
+    <div id="accountsTab" class="d-flex justify-content-center hidden">
+
     </div>
 </body>

@@ -4,7 +4,11 @@ var per_page;
 window.onload = function() {
 	activeIndex = 1;
 	per_page = 100;
-	updateMovies(1)
+	updateMovies(1);
+
+	$(function(){
+    	$('.selectpicker').selectpicker();
+	});
 };
 
 function updateMovies(index) {
@@ -21,7 +25,7 @@ function updateMovies(index) {
 				var row = results[i];
 				var id = row["ID"];
 				var title = row["Title"];
-				var genres = row["Genres"];
+				var genres = row["Genres"].replace(/\|/g, ", ");
 				$('#moviesTable > tbody:last-child').append("<tr><td>" + id + "</td><td>" + title + "</td><td>" + genres + "</td></tr>");
 			}
 		},
@@ -121,10 +125,21 @@ function showMovies() {
 	updateMovies(1);
 	$('#ratingsTab').addClass('hidden');
 	$('#moviesTab').removeClass('hidden');
+	$('#pageBar').removeClass('hidden');
+	$('#accountsTab').addClass('hidden');
 }
 
 function showRatings() {
 	updateRatings(1);
 	$('#moviesTab').addClass('hidden');
 	$('#ratingsTab').removeClass('hidden');
+	$('#pageBar').removeClass('hidden');
+	$('#accountsTab').addClass('hidden');
+}
+
+function showAccounts() {
+	$('#ratingsTab').addClass('hidden');
+	$('#moviesTab').addClass('hidden');
+	$('#pageBar').addClass('hidden');
+	$('#accountsTab').removeClass('hidden');
 }
