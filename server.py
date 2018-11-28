@@ -128,6 +128,7 @@ def delete_rating():
     ratings_data = ratings_data[(ratings_data.userId != user_id) | (ratings_data.movieId != movie_id)]
     all_data = pandas.merge(ratings_data, movies_data, on='movieId')
 
+    ratings_data.to_csv("Data/ratings.csv", index=False)
     return "Rating successfully deleted."
 
 
