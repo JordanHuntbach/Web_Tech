@@ -35,6 +35,9 @@ function updateUserSelector() {
 		var user = users[i];
 		wrapper.append('<button onclick="switchUser(' + i + ')" class="dropdown-item" type="button">' + user["Name"] + '</button>');
 	}
+	if (currentUserID !== -1) {
+		wrapper.find('button:contains("' + currentUser["Name"] + '")').first().addClass('active');
+	}
 }
 
 function updateMovies(index) {
@@ -209,13 +212,19 @@ function switchUser(id) {
 	}
 }
 
-function addUser(name) {
+function addUser() {
+	var name = $('#addUserName').val();
+	var newUser = {"Name": name, "Language": "English"};
     $.ajax({
-		url: '/users',
+		url: '/addUser',
 		type: 'POST',
-		data: {"Name": name, "Language": "English"},
-		success: function(response){
-			console.log("User added.");
+		data: newUser,
+		success: function(response) {
+			var newID = response["newID"];
+			users[newID] = newUser;
+			updateUserSelector();
+			alert("Added new user: " + name);
+			$('#addUserName').val("");
 		},
 		error: function(error){
 			console.log(error);

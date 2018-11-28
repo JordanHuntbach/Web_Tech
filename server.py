@@ -60,6 +60,15 @@ def show_users():
     return jsonify(users)
 
 
+@app.route('/addUser', methods=['POST'])
+def add_user():
+    name = request.form['Name']
+    language = request.form['Language']
+    new_id = max(users.keys()) + 1
+    users[new_id] = {"Name": name, "Language": language}
+    return jsonify({"newID": new_id})
+
+
 @app.route('/updateUser', methods=['POST'])
 def update_user():
     user_id = int(request.form['ID'])
