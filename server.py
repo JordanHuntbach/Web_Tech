@@ -1,9 +1,11 @@
+import csv
+
 from flask import Flask, render_template, request, jsonify
 import pandas
 
 app = Flask(__name__)
 
-users = {1: {"Name": "Jordan", "Language": "English"}, 2: {"Name": "User 2", "Language": "English"}}
+users = {}
 
 movies_data = pandas.read_csv("Data/movies.csv")
 ratings_data = pandas.read_csv("Data/ratings.csv")
@@ -57,6 +59,7 @@ def get_ratings():
 
 @app.route('/users', methods=['GET'])
 def show_users():
+    read_users()
     return jsonify(users)
 
 
@@ -66,6 +69,7 @@ def add_user():
     language = request.form['Language']
     new_id = max(users.keys()) + 1
     users[new_id] = {"Name": name, "Language": language}
+    write_users()
     return jsonify({"newID": new_id})
 
 
@@ -74,6 +78,7 @@ def update_user():
     user_id = int(request.form['ID'])
     new_name = request.form['Name']
     users[user_id]["Name"] = new_name
+    write_users()
     return "User successfully updated."
 
 
@@ -82,6 +87,23 @@ def delete_user():
     user_id = int(request.form['ID'])
     del(users[user_id])
     return "User successfully deleted."
+
+
+def read_users():
+    users.clear()
+    with open('Data/users.csv', 'r') as file:
+        read = csv.reader(file)
+        for row in read:
+            user = {"Name": row[1], "Language": row[2]}
+            users[row[0]] = user
+
+
+def write_users():
+    with open('Data/users.csv', 'w') as file:
+        write = csv.writer(file)
+        for user_id in users:
+            user = users[user_id]
+            write.writerow([user_id, user["Name"], user["Language"]])
 
 
 if __name__ == "__main__":
