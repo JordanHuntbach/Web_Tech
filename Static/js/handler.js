@@ -201,7 +201,7 @@ function getUserReviews() {
 		success: function(response){
 			$('#userRatingsTableBody').empty();
 
-			var buttons = "<td><button type='button' class='btn btn-secondary'><img src='static/images/edit.png' alt='Delete'/></button></td><td><button type='button' class='btn btn-danger'><img src='static/images/delete.png' alt='Delete'/></button></td>";
+			var buttons = "<td><button type='button' class='btn btn-secondary'><img src='Static/images/edit.png' alt='Delete'/></button></td><td><button type='button' class='btn btn-danger'><img src='Static/images/delete.png' alt='Delete'/></button></td>";
 
 			for (var i in response) {
 				var row = response[i];
