@@ -14,7 +14,6 @@ all_data = pandas.merge(ratings_data, movies_data, on='movieId')
 
 @app.route('/')
 def output():
-    # Serve index template
     return render_template('index.html')
 
 
@@ -113,7 +112,7 @@ def user_ratings():
     result = []
     for index, row in all_data.iterrows():
         if row["userId"] == user_id:
-            new = {"Movie": row["title"], "Rating": row["rating"]}
+            new = {"Movie": row["title"], "Rating": row["rating"], "MovieID": row["movieId"]}
             result.append(new)
     result.sort(key=lambda i: i['Movie'])
     result.sort(key=lambda i: i['Rating'], reverse=True)

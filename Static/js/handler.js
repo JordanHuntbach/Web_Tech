@@ -201,11 +201,13 @@ function getUserReviews() {
 		success: function(response){
 			$('#userRatingsTableBody').empty();
 
+			var buttons = "<td><button type='button' class='btn btn-secondary'><img src='static/images/edit.png' alt='Delete'/></button></td><td><button type='button' class='btn btn-danger'><img src='static/images/delete.png' alt='Delete'/></button></td>";
+
 			for (var i in response) {
 				var row = response[i];
 				var movie = row["Movie"];
 				var rating = row["Rating"];
-				$('#userRatingsTable > tbody:last-child').append("<tr><td>" + movie + "</td><td>" + rating + "</td></tr>");
+				$('#userRatingsTable > tbody:last-child').append("<tr movieID='" + row["MovieID"] + "'><td>" + movie + "</td><td>" + rating + "</td>" + buttons + "</tr>");
 			}
 		},
 		error: function(error){
