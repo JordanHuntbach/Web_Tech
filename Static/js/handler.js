@@ -201,13 +201,14 @@ function getUserReviews() {
 		success: function(response){
 			$('#userRatingsTableBody').empty();
 
-			var buttons = "<td><button type='button' class='btn btn-secondary'><img src='Static/images/edit.png' alt='Delete'/></button></td><td><button type='button' class='btn btn-danger'><img src='Static/images/delete.png' alt='Delete'/></button></td>";
-
 			for (var i in response) {
 				var row = response[i];
 				var movie = row["Movie"];
 				var rating = row["Rating"];
-				$('#userRatingsTable > tbody:last-child').append("<tr movieID='" + row["MovieID"] + "'><td>" + movie + "</td><td>" + rating + "</td>" + buttons + "</tr>");
+				var movieID = row["MovieID"];
+				var editButton = "<td><button type='button' class='btn btn-secondary'><img src='static/images/edit.png' alt='Edit'/></button></td>";
+				var deleteButton = "<td><button onclick='deleteRating(" + movieID + ")' type='button' class='btn btn-danger'><img src='static/images/delete.png' alt='Delete'/></button></td>";
+				$('#userRatingsTable > tbody:last-child').append("<tr id='userRating" + movieID + "'><td>" + movie + "</td><td>" + rating + "</td>" + editButton + deleteButton + "</tr>");
 			}
 		},
 		error: function(error){
@@ -290,6 +291,21 @@ function deleteCurrentUser() {
 			switchUser(-1);
 			updateUserSelector();
 			alert("User deleted.");
+		},
+		error: function(error){
+			console.log(error);
+		}
+	});
+}
+
+function deleteRating(movieID) {
+    console.log("Deleting rating with user " + currentUserID + " and movie " + movieID);
+    $.ajax({
+		url: '/deleteRating',
+		type: 'POST',
+		data: {"userId": currentUserID, "movieId": movieID},
+		success: function(){
+			$('#userRating' + movieID + '').remove();
 		},
 		error: function(error){
 			console.log(error);

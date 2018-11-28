@@ -119,6 +119,18 @@ def user_ratings():
     return jsonify(result)
 
 
+@app.route('/deleteRating', methods=['POST'])
+def delete_rating():
+    user_id = int(request.form['userId'])
+    movie_id = int(request.form['movieId'])
+
+    global ratings_data, all_data
+    ratings_data = ratings_data[(ratings_data.userId != user_id) | (ratings_data.movieId != movie_id)]
+    all_data = pandas.merge(ratings_data, movies_data, on='movieId')
+
+    return "Rating successfully deleted."
+
+
 if __name__ == "__main__":
     read_users()
     app.run()
