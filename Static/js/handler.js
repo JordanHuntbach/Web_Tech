@@ -184,11 +184,34 @@ function showAccounts() {
 	if (currentUserID === -1) {
 	    $('#changeOrDelete').addClass('hidden');
 	    $('#pleaseSignIn').removeClass('hidden');
+	    $('#userRatingsTab').addClass('hidden');
     } else {
 	    $('#changeOrDelete').removeClass('hidden');
 	    $('#pleaseSignIn').addClass('hidden');
 	    $('#nameEdit').val(currentUser["Name"]);
+	    $('#userRatingsTab').removeClass('hidden');
+	    getUserReviews();
     }
+}
+
+function getUserReviews() {
+	$.ajax({
+		url: '/userRatings?userId=' + currentUserID,
+		type: 'GET',
+		success: function(response){
+			$('#userRatingsTableBody').empty();
+
+			for (var i in response) {
+				var row = response[i];
+				var movie = row["Movie"];
+				var rating = row["Rating"];
+				$('#userRatingsTable > tbody:last-child').append("<tr><td>" + movie + "</td><td>" + rating + "</td></tr>");
+			}
+		},
+		error: function(error){
+			console.log(error);
+		}
+	});
 }
 
 function switchUser(id) {
@@ -196,6 +219,8 @@ function switchUser(id) {
 
     var wrapper = $('#userSelector');
     wrapper.find('button').removeClass('active');
+
+    $('#userRatingsTableBody').empty();
 
     if (id === -1) {
     	$('#message').text("");
@@ -239,7 +264,7 @@ function changeName() {
 		url: '/updateUser',
 		type: 'POST',
 		data: {"ID": currentUserID, "Name": newName},
-		success: function(response){
+		success: function(){
 			users[currentUserID]["Name"] = newName;
 			currentUser = users[currentUserID];
 			updateUserSelector();
@@ -258,7 +283,7 @@ function deleteCurrentUser() {
 		url: '/deleteUser',
 		type: 'POST',
 		data: {"ID": currentUserID},
-		success: function(response){
+		success: function(){
 			delete users[currentUserID];
 			switchUser(-1);
 			updateUserSelector();

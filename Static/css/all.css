@@ -16,3 +16,7 @@ th {
     -webkit-box-shadow: none;
     box-shadow: none;
 }
+
+h3 {
+    text-align: center;
+}

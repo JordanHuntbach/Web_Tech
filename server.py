@@ -9,6 +9,7 @@ users = {}
 
 movies_data = pandas.read_csv("Data/movies.csv")
 ratings_data = pandas.read_csv("Data/ratings.csv")
+all_data = pandas.merge(ratings_data, movies_data, on='movieId')
 
 
 @app.route('/')
@@ -59,7 +60,6 @@ def get_ratings():
 
 @app.route('/users', methods=['GET'])
 def show_users():
-    read_users()
     return jsonify(users)
 
 
@@ -86,6 +86,7 @@ def update_user():
 def delete_user():
     user_id = int(request.form['ID'])
     del(users[user_id])
+    write_users()
     return "User successfully deleted."
 
 
@@ -95,7 +96,7 @@ def read_users():
         read = csv.reader(file)
         for row in read:
             user = {"Name": row[1], "Language": row[2]}
-            users[row[0]] = user
+            users[int(row[0])] = user
 
 
 def write_users():
@@ -106,5 +107,19 @@ def write_users():
             write.writerow([user_id, user["Name"], user["Language"]])
 
 
+@app.route('/userRatings', methods=['GET'])
+def user_ratings():
+    user_id = int(request.args.get('userId'))
+    result = []
+    for index, row in all_data.iterrows():
+        if row["userId"] == user_id:
+            new = {"Movie": row["title"], "Rating": row["rating"]}
+            result.append(new)
+    result.sort(key=lambda i: i['Movie'])
+    result.sort(key=lambda i: i['Rating'], reverse=True)
+    return jsonify(result)
+
+
 if __name__ == "__main__":
+    read_users()
     app.run()
