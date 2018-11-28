@@ -132,6 +132,20 @@ def delete_rating():
     return "Rating successfully deleted."
 
 
+@app.route('/updateRating', methods=['POST'])
+def update_rating():
+    user_id = int(request.form['userId'])
+    movie_id = int(request.form['movieId'])
+    rating = float(request.form['rating'])
+
+    global ratings_data, all_data
+    ratings_data.loc[(ratings_data.userId == user_id) & (ratings_data.movieId == movie_id), 'rating'] = rating
+    all_data = pandas.merge(ratings_data, movies_data, on='movieId')
+
+    ratings_data.to_csv("Data/ratings.csv", index=False)
+    return "Rating successfully updated."
+
+
 if __name__ == "__main__":
     read_users()
     app.run()

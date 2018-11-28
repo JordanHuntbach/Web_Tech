@@ -206,7 +206,7 @@ function getUserReviews() {
 				var movie = row["Movie"];
 				var rating = row["Rating"];
 				var movieID = row["MovieID"];
-				var editButton = "<td><button type='button' class='btn btn-secondary'><img src='static/images/edit.png' alt='Edit'/></button></td>";
+				var editButton = "<td><button onclick='updateModal(" + movieID + ")' type='button' class='btn btn-secondary' data-toggle='modal' data-target='#updateRatingModal'><img src='static/images/edit.png' alt='Edit'/></button></td>";
 				var deleteButton = "<td><button onclick='deleteRating(" + movieID + ")' type='button' class='btn btn-danger'><img src='static/images/delete.png' alt='Delete'/></button></td>";
 				$('#userRatingsTable > tbody:last-child').append("<tr id='userRating" + movieID + "'><td>" + movie + "</td><td>" + rating + "</td>" + editButton + deleteButton + "</tr>");
 			}
@@ -311,4 +311,37 @@ function deleteRating(movieID) {
 			console.log(error);
 		}
 	});
+}
+
+function updateModal(movieID) {
+	var row = $('#userRating' + movieID + '');
+	var text = row.find("td").first().text();
+	$('#updateRatingModalLabel').text(text);
+	$('#newRating').val(parseFloat(row.find("td").eq(1).text()));
+	currentMovie = movieID;
+}
+
+var currentMovie;
+
+function updateRating() {
+	var rating = parseFloat($('#newRating').val());
+  	if (!isNaN(rating) && rating >= 0 && rating <= 5) {
+  		console.log("Updating rating with user " + currentUserID + " and movie " + currentMovie + " to " + rating);
+		$.ajax({
+			url: '/updateRating',
+			type: 'POST',
+			data: {"userId": currentUserID, "movieId": currentMovie, "rating": rating},
+			success: function(){
+				var row = $('#userRating' + currentMovie + '');
+				row.find("td").eq(1).text(rating);
+				$('#updateRatingModal').modal('hide');
+				alert("Rating updated.");
+			},
+			error: function(error){
+				console.log(error);
+			}
+		});
+	} else {
+  		alert("Please enter a number between 0 and 5.");
+	}
 }

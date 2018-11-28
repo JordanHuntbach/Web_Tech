@@ -179,5 +179,28 @@
             </div>
         </div>
 
+        <div class="modal fade bd-example-modal-sm" id="updateRatingModal" tabindex="-1" role="dialog" aria-labelledby="updateRatingModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="updateRatingModalLabel">Change Rating</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  <div class="form-group">
+                      <label for="newRating">Enter new rating:</label>
+                      <input type="number" class="form-control" id="newRating" min="0" max="5">
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button onclick="updateRating()" type="button" class="btn btn-secondary">Save Rating</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
     </div>
 </body>
