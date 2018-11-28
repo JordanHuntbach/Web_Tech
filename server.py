@@ -60,5 +60,20 @@ def show_users():
     return jsonify(users)
 
 
+@app.route('/updateUser', methods=['POST'])
+def update_user():
+    user_id = int(request.form['ID'])
+    new_name = request.form['Name']
+    users[user_id]["Name"] = new_name
+    return "User successfully updated."
+
+
+@app.route('/deleteUser', methods=['POST'])
+def delete_user():
+    user_id = int(request.form['ID'])
+    del(users[user_id])
+    return "User successfully deleted."
+
+
 if __name__ == "__main__":
     app.run()

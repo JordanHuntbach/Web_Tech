@@ -137,7 +137,7 @@
                         <div class="input-group">
                             <input id="nameEdit" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="saveUsername">
                             <div class="input-group-append">
-                                <button class="btn btn-outline-dark" type="button" id="saveUsername">Save Username</button>
+                                <button onclick="changeName()" class="btn btn-outline-dark" type="submit" id="saveUsername">Save Username</button>
                             </div>
                         </div>
                     </div>
@@ -145,7 +145,7 @@
 
                 <div class="row justify-content-center">
                     <div class="col-md-9 col-lg-6">
-                        <button class="btn btn-danger" id="deleteUser" style="width: 100%">Delete Current User</button>
+                        <button onclick="deleteCurrentUser()" class="btn btn-danger" id="deleteUser" style="width: 100%">Delete Current User</button>
                     </div>
                 </div>
             </div>

@@ -20,17 +20,21 @@ function getUsers() {
 		type: 'GET',
 		success: function(response){
             users = response;
-            var wrapper = $('#userSelector');
-            wrapper.empty();
-            for (var i in response) {
-                var user = response[i];
-                wrapper.append('<button onclick="switchUser(' + i + ')" class="dropdown-item" type="button">' + user["Name"] + '</button>');
-            }
+            updateUserSelector();
 		},
 		error: function(error){
 			console.log(error);
 		}
 	});
+}
+
+function updateUserSelector() {
+	var wrapper = $('#userSelector');
+	wrapper.empty();
+	for (var i in users) {
+		var user = users[i];
+		wrapper.append('<button onclick="switchUser(' + i + ')" class="dropdown-item" type="button">' + user["Name"] + '</button>');
+	}
 }
 
 function updateMovies(index) {
@@ -186,21 +190,73 @@ function showAccounts() {
 
 function switchUser(id) {
     currentUserID = id;
-    currentUser = users[id];
-    var name = currentUser["Name"];
-    $('#message').text("Hello " + name + "!");
-    if (currentView === "Accounts") {
-        showAccounts();
-    }
+
     var wrapper = $('#userSelector');
     wrapper.find('button').removeClass('active');
-    wrapper.find('button:contains("' + name + '")').first().addClass('active');
+
+    if (id === -1) {
+    	$('#message').text("");
+    	currentUser = null;
+	} else {
+    	currentUser = users[id];
+		var name = currentUser["Name"];
+		$('#message').text("Hello " + name + "!");
+		wrapper.find('button:contains("' + name + '")').first().addClass('active');
+	}
+
+	if (currentView === "Accounts") {
+		showAccounts();
+	}
 }
 
 function addUser(name) {
-    //TODO
+    $.ajax({
+		url: '/users',
+		type: 'POST',
+		data: {"Name": name, "Language": "English"},
+		success: function(response){
+			console.log("User added.");
+		},
+		error: function(error){
+			console.log(error);
+		}
+	});
 }
 
-function changeName(id, newName) {
-    //TODO
+function changeName() {
+	var newName = $('#nameEdit').val();
+    console.log("New name for user " + currentUserID + " is " + newName);
+    $.ajax({
+		url: '/updateUser',
+		type: 'POST',
+		data: {"ID": currentUserID, "Name": newName},
+		success: function(response){
+			users[currentUserID]["Name"] = newName;
+			currentUser = users[currentUserID];
+			updateUserSelector();
+			switchUser(currentUserID);
+			alert("Name successfully changed to " + newName);
+		},
+		error: function(error){
+			console.log(error);
+		}
+	});
+}
+
+function deleteCurrentUser() {
+    console.log("Deleting user: " + currentUserID);
+    $.ajax({
+		url: '/deleteUser',
+		type: 'POST',
+		data: {"ID": currentUserID},
+		success: function(response){
+			delete users[currentUserID];
+			switchUser(-1);
+			updateUserSelector();
+			alert("User deleted.");
+		},
+		error: function(error){
+			console.log(error);
+		}
+	});
 }
