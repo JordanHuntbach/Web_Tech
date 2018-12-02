@@ -27,17 +27,13 @@ def get_movies():
     per_page = int(request.args.get('per_page'))
     pages = len(movies_data) // per_page + 1
     result = []
-    count = 0
+
     low = index * per_page
     high = low + per_page
-    result_range = range(low, high)
-    for index, row in movies_data.iterrows():
-        if count in result_range:
-            new = {"ID": row["movieId"], "Title": row["title"], "Genres": row["genres"]}
-            result.append(new)
-        elif count > high:
-            break
-        count += 1
+
+    for index, row in movies_data.iloc[low:high].iterrows():
+        new = {"ID": row["movieId"], "Title": row["title"], "Genres": row["genres"]}
+        result.append(new)
     return jsonify({"pages": pages, "result": result})
 
 
@@ -47,17 +43,13 @@ def get_ratings():
     per_page = int(request.args.get('per_page'))
     pages = len(ratings_data) // per_page + 1
     result = []
-    count = 0
+
     low = index * per_page
     high = low + per_page
-    result_range = range(low, high)
-    for index, row in ratings_data.iterrows():
-        if count in result_range:
-            new = {"User ID": row["userId"], "Movie ID": row["movieId"], "Rating": row["rating"]}
-            result.append(new)
-        elif count > high:
-            break
-        count += 1
+
+    for index, row in ratings_data.iloc[low:high].iterrows():
+        new = {"User ID": row["userId"], "Movie ID": row["movieId"], "Rating": row["rating"]}
+        result.append(new)
     return jsonify({"pages": pages, "result": result})
 
 
@@ -114,10 +106,10 @@ def write_users():
 def user_ratings():
     user_id = int(request.args.get('userId'))
     result = []
-    for index, row in all_data.iterrows():
-        if row["userId"] == user_id:
-            new = {"Movie": row["title"], "Rating": row["rating"], "MovieID": row["movieId"]}
-            result.append(new)
+    user_rating_df = all_data.loc[all_data['userId'] == user_id]
+    for index, row in user_rating_df.iterrows():
+        new = {"Movie": row["title"], "Rating": row["rating"], "MovieID": row["movieId"]}
+        result.append(new)
     result.sort(key=lambda i: i['Movie'])
     result.sort(key=lambda i: i['Rating'], reverse=True)
     return jsonify(result)
@@ -156,7 +148,7 @@ def predict_ratings():
     results_matrix = results_df.as_matrix()
     user_ratings_mean = numpy.mean(results_matrix, axis=1)
     results = results_matrix - user_ratings_mean.reshape(-1, 1)
-    k = 2
+    k = 50
     u, sigma, v = svds(results, k)
     sigma = numpy.diag(sigma)
 
@@ -167,15 +159,14 @@ def predict_ratings():
 @app.route('/getRecommendation', methods=['GET'])
 def get_recommendation():
     user_id = int(request.args.get('userId'))
+    user_list = set(ratings_data.get('userId'))
 
-    if user_id == -1:
+    if user_id == -1 or user_id not in user_list:
         results = pandas.DataFrame(all_data.groupby('title')['rating'].mean())
         results['rating_counts'] = pandas.DataFrame(all_data.groupby('title')['rating'].count())
         results = results[results['rating_counts'] > 50].sort_values('rating', ascending=False)
         results = pandas.merge(results, movies_data, on='title', how='inner')
     else:
-        if predicted_ratings is None:
-            predict_ratings()
         results = movies_data.join(predicted_ratings.loc[user_id - 1].rename("rating"),
                                    on='movieId').sort_values('rating', ascending=False)
 
@@ -184,24 +175,20 @@ def get_recommendation():
     length = len(results)
     pages = length // per_page + 1
     result = []
-    count = 0
+
     low = index * per_page
     high = low + per_page
-    result_range = range(low, high)
 
-    for index, row in results.iterrows():
-        if count in result_range:
-            rating = row["rating"]
-            if math.isnan(rating):
-                rating = "None"
-            new = {"Movie Title": row["title"], "Genre(s)": row["genres"], "Rating": rating}
-            result.append(new)
-        elif count > high:
-            break
-        count += 1
+    for index, row in results.iloc[low:high].iterrows():
+        rating = row["rating"]
+        if math.isnan(rating):
+            rating = "None"
+        new = {"Movie Title": row["title"], "Genre(s)": row["genres"], "Rating": rating}
+        result.append(new)
     return jsonify({"pages": pages, "result": result})
 
 
 if __name__ == "__main__":
     read_users()
+    predict_ratings()
     app.run()
