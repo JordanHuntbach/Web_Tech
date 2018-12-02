@@ -12,6 +12,7 @@ window.onload = function() {
 	getUsers();
 	updateMovies(1);
 	currentUserID = -1;
+	$('#tooltip').tooltip()
 };
 
 function getUsers() {
@@ -78,6 +79,8 @@ function updatePerPage(newValue) {
 		updateMovies(activeIndex);
 	} else if (currentView === "Ratings") {
 		updateRatings(activeIndex);
+	} else if (currentView === "Recommendations") {
+		updateRecommendations(activeIndex);
 	}
 }
 
@@ -163,6 +166,7 @@ function showMovies() {
 	$('#moviesTab').removeClass('hidden');
 	$('#pageBar').removeClass('hidden');
 	$('#accountsTab').addClass('hidden');
+	$('#recommendationsTab').addClass('hidden');
 }
 
 function showRatings() {
@@ -172,6 +176,7 @@ function showRatings() {
 	$('#ratingsTab').removeClass('hidden');
 	$('#pageBar').removeClass('hidden');
 	$('#accountsTab').addClass('hidden');
+	$('#recommendationsTab').addClass('hidden');
 }
 
 function showAccounts() {
@@ -179,6 +184,7 @@ function showAccounts() {
 	$('#ratingsTab').addClass('hidden');
 	$('#moviesTab').addClass('hidden');
 	$('#pageBar').addClass('hidden');
+	$('#recommendationsTab').addClass('hidden');
 	$('#accountsTab').removeClass('hidden');
 
 	if (currentUserID === -1) {
@@ -192,6 +198,49 @@ function showAccounts() {
 	    $('#userRatingsTab').removeClass('hidden');
 	    getUserReviews();
     }
+}
+
+function showRecommendations() {
+	currentView = "Recommendations";
+	$('#ratingsTab').addClass('hidden');
+	$('#moviesTab').addClass('hidden');
+	$('#pageBar').removeClass('hidden');
+	$('#accountsTab').addClass('hidden');
+	$('#recommendationsTab').removeClass('hidden');
+
+	if (currentUserID === -1) {
+	    $('#notSignedIn').removeClass('hidden');
+    } else {
+	    $('#notSignedIn').addClass('hidden');
+    }
+    updateRecommendations(1);
+}
+
+function updateRecommendations(index) {
+	activeIndex = index;
+	$.ajax({
+		url: '/getRecommendation?userId=' + currentUserID + '&index=' + index + '&per_page=' + per_page,
+		type: 'GET',
+		success: function(response){
+			$('#recommendationsTableBody').empty();
+			var pages = response["pages"];
+			updatePageButtons(pages, "Recommendations");
+			var results = response["result"];
+			for (var i in results) {
+				var row = results[i];
+				var title = row["Movie Title"];
+				var genres = row["Genre(s)"].replace(/\|/g, ", ");
+				var rank = row["Rating"];
+				if (!isNaN(rank)) {
+					rank = rank.toFixed(2);
+				}
+				$('#recommendationsTable > tbody:last-child').append("<tr><td>" + title + "</td><td>" + genres + "</td><td>" + rank + "</td></tr>");
+			}
+		},
+		error: function(error){
+			console.log(error);
+		}
+	});
 }
 
 function getUserReviews() {
@@ -237,6 +286,8 @@ function switchUser(id) {
 
 	if (currentView === "Accounts") {
 		showAccounts();
+	} else if (currentView === "Recommendations") {
+		showRecommendations();
 	}
 }
 

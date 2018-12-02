@@ -26,6 +26,7 @@
                 <button class="btn btn-dark" onclick="showMovies()">List of Movies <span class="sr-only">(current)</span></button>
                 <button class="btn btn-dark" onclick="showRatings()">List of Ratings</button>
                 <button class="btn btn-dark" onclick="showAccounts()">Account Management</button>
+                <button class="btn btn-dark" onclick="showRecommendations()">Get Movie Recommendations</button>
             </div>
 
             <div class="nav navbar-nav navbar-nav-right">
@@ -202,5 +203,30 @@
           </div>
         </div>
 
+    </div>
+
+    <div id="recommendationsTab" class="hidden">
+
+        <div id="notSignedIn" class="hidden">
+            <div class="row my-3 justify-content-center">
+                <div class="col-md-9 col-lg-6" style="text-align: center;">
+                    Displaying
+                    <a id="tooltip" href="#" data-toggle="tooltip" title="Films with more than 50 reviews, sorted by average rating.">most popular</a>
+                    films. Please log in to receive personalised recommendations.
+                </div>
+            </div>
+        </div>
+
+        <table id="recommendationsTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Movie</th>
+                    <th>Genre(s)</th>
+                    <th>Match</th>
+                </tr>
+            </thead>
+            <tbody id="recommendationsTableBody">
+            </tbody>
+        </table>
     </div>
 </body>

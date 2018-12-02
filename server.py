@@ -1,7 +1,10 @@
 import csv
+import math
 
 from flask import Flask, render_template, request, jsonify
 import pandas
+import numpy
+from scipy.sparse.linalg import svds
 
 app = Flask(__name__)
 
@@ -10,6 +13,7 @@ users = {}
 movies_data = pandas.read_csv("Data/movies.csv")
 ratings_data = pandas.read_csv("Data/ratings.csv")
 all_data = pandas.merge(ratings_data, movies_data, on='movieId')
+predicted_ratings = None
 
 
 @app.route('/')
@@ -144,6 +148,58 @@ def update_rating():
 
     ratings_data.to_csv("Data/ratings.csv", index=False)
     return "Rating successfully updated."
+
+
+def predict_ratings():
+    global predicted_ratings
+    results_df = all_data.pivot_table(index='userId', columns='movieId', values='rating').fillna(0)
+    results_matrix = results_df.as_matrix()
+    user_ratings_mean = numpy.mean(results_matrix, axis=1)
+    results = results_matrix - user_ratings_mean.reshape(-1, 1)
+    k = 2
+    u, sigma, v = svds(results, k)
+    sigma = numpy.diag(sigma)
+
+    all_user_predictions = numpy.dot(numpy.dot(u, sigma), v) + user_ratings_mean.reshape(-1, 1)
+    predicted_ratings = pandas.DataFrame(all_user_predictions, columns=results_df.columns)
+
+
+@app.route('/getRecommendation', methods=['GET'])
+def get_recommendation():
+    user_id = int(request.args.get('userId'))
+
+    if user_id == -1:
+        results = pandas.DataFrame(all_data.groupby('title')['rating'].mean())
+        results['rating_counts'] = pandas.DataFrame(all_data.groupby('title')['rating'].count())
+        results = results[results['rating_counts'] > 50].sort_values('rating', ascending=False)
+        results = pandas.merge(results, movies_data, on='title', how='inner')
+    else:
+        if predicted_ratings is None:
+            predict_ratings()
+        results = movies_data.join(predicted_ratings.loc[user_id - 1].rename("rating"),
+                                   on='movieId').sort_values('rating', ascending=False)
+
+    index = int(request.args.get('index')) - 1
+    per_page = int(request.args.get('per_page'))
+    length = len(results)
+    pages = length // per_page + 1
+    result = []
+    count = 0
+    low = index * per_page
+    high = low + per_page
+    result_range = range(low, high)
+
+    for index, row in results.iterrows():
+        if count in result_range:
+            rating = row["rating"]
+            if math.isnan(rating):
+                rating = "None"
+            new = {"Movie Title": row["title"], "Genre(s)": row["genres"], "Rating": rating}
+            result.append(new)
+        elif count > high:
+            break
+        count += 1
+    return jsonify({"pages": pages, "result": result})
 
 
 if __name__ == "__main__":
