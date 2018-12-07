@@ -15,6 +15,8 @@ ratings_data = pandas.read_csv("Data/ratings.csv")
 all_data = pandas.merge(ratings_data, movies_data, on='movieId')
 predicted_ratings = None
 
+current_recommendations = True
+
 
 @app.route('/')
 def output():
@@ -125,6 +127,10 @@ def delete_rating():
     all_data = pandas.merge(ratings_data, movies_data, on='movieId')
 
     ratings_data.to_csv("Data/ratings.csv", index=False)
+
+    global current_recommendations
+    current_recommendations = False
+
     return "Rating successfully deleted."
 
 
@@ -139,6 +145,10 @@ def update_rating():
     all_data = pandas.merge(ratings_data, movies_data, on='movieId')
 
     ratings_data.to_csv("Data/ratings.csv", index=False)
+
+    global current_recommendations
+    current_recommendations = False
+
     return "Rating successfully updated."
 
 
@@ -154,10 +164,16 @@ def predict_ratings():
 
     all_user_predictions = numpy.dot(numpy.dot(u, sigma), v) + user_ratings_mean.reshape(-1, 1)
     predicted_ratings = pandas.DataFrame(all_user_predictions, columns=results_df.columns)
+    global current_recommendations
+    current_recommendations = True
 
 
 @app.route('/getRecommendation', methods=['GET'])
 def get_recommendation():
+    global current_recommendations
+    if not current_recommendations:
+        predict_ratings()
+
     user_id = int(request.args.get('userId'))
     user_list = set(ratings_data.get('userId'))
 
@@ -189,6 +205,6 @@ def get_recommendation():
 
 
 if __name__ == "__main__":
-    read_users()
     predict_ratings()
+    read_users()
     app.run()

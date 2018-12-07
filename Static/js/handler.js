@@ -39,6 +39,7 @@ function updateUserSelector() {
 	if (currentUserID !== -1) {
 		wrapper.find('button:contains("' + currentUser["Name"] + '")').first().addClass('active');
 	}
+	wrapper.append('<hr style="margin-top: 0.5rem; margin-bottom: 0.5rem;"> <button onclick="switchUser(-1)" class="dropdown-item" type="button">Sign Out</button>');
 }
 
 function updateMovies(index) {
@@ -250,14 +251,18 @@ function getUserReviews() {
 		success: function(response){
 			$('#userRatingsTableBody').empty();
 
-			for (var i in response) {
-				var row = response[i];
-				var movie = row["Movie"];
-				var rating = row["Rating"];
-				var movieID = row["MovieID"];
-				var editButton = "<td><button onclick='updateModal(" + movieID + ")' type='button' class='btn btn-secondary' data-toggle='modal' data-target='#updateRatingModal'><img src='static/images/edit.png' alt='Edit'/></button></td>";
-				var deleteButton = "<td><button onclick='deleteRating(" + movieID + ")' type='button' class='btn btn-danger'><img src='static/images/delete.png' alt='Delete'/></button></td>";
-				$('#userRatingsTable > tbody:last-child').append("<tr id='userRating" + movieID + "'><td>" + movie + "</td><td>" + rating + "</td>" + editButton + deleteButton + "</tr>");
+			if (response.length > 0) {
+				for (var i in response) {
+					var row = response[i];
+					var movie = row["Movie"];
+					var rating = row["Rating"];
+					var movieID = row["MovieID"];
+					var editButton = "<td><button onclick='updateModal(" + movieID + ")' type='button' class='btn btn-secondary' data-toggle='modal' data-target='#updateRatingModal'><img src='static/images/edit.png' alt='Edit'/></button></td>";
+					var deleteButton = "<td><button onclick='deleteRating(" + movieID + ")' type='button' class='btn btn-danger'><img src='static/images/delete.png' alt='Delete'/></button></td>";
+					$('#userRatingsTable > tbody:last-child').append("<tr id='userRating" + movieID + "'><td>" + movie + "</td><td>" + rating + "</td>" + editButton + deleteButton + "</tr>");
+				}
+			} else {
+				$('#userRatingsTable > tbody:last-child').append("<tr><td style='text-align: center' colspan='4'> You haven't yet reviewed any films!</td></tr>");
 			}
 		},
 		error: function(error){
