@@ -19,7 +19,7 @@ predicted_ratings = None
 
 current_recommendations = True
 
-LANGUAGES = ['en', 'es', 'fr', 'cn', 'de']
+LANGUAGES = ['en', 'es', 'fr', 'zh', 'de']
 current_language = 'en'
 
 
