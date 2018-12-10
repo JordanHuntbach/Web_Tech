@@ -1,12 +1,14 @@
 import csv
 import math
 
+from flask_babel import Babel
 from flask import Flask, render_template, request, jsonify
 import pandas
 import numpy
 from scipy.sparse.linalg import svds
 
 app = Flask(__name__)
+babel = Babel(app)
 
 users = {}
 
@@ -16,6 +18,31 @@ all_data = pandas.merge(ratings_data, movies_data, on='movieId')
 predicted_ratings = None
 
 current_recommendations = True
+
+LANGUAGES = ['en', 'es', 'fr', 'cn', 'de']
+current_language = 'en'
+
+
+@babel.localeselector
+def get_locale():
+    return current_language
+
+
+@app.route('/getCurrentLanguage', methods=['GET'])
+def get_language():
+    return current_language
+
+
+@app.route('/switchLanguage', methods=['POST'])
+def update_language():
+    language = request.form['Language']
+    user_id = int(request.form['ID'])
+    if language in LANGUAGES:
+        global current_language
+        current_language = language
+        if user_id in users:
+            users[user_id]["Language"] = language
+    return "Language updated"
 
 
 @app.route('/')

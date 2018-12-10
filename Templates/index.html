@@ -14,7 +14,7 @@
 
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
-    <title>Movies</title>
+    <title>{{_('Movies')}}</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -25,10 +25,10 @@
         <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
 
             <div class="nav navbar-nav">
-                <button class="btn btn-dark" onclick="showMovies()">List of Movies <span class="sr-only">(current)</span></button>
-                <button class="btn btn-dark" onclick="showRatings()">List of Ratings</button>
-                <button class="btn btn-dark" onclick="showAccounts()">Account Management</button>
-                <button class="btn btn-dark" onclick="showRecommendations()">Get Movie Recommendations</button>
+                <button class="btn btn-dark" onclick="showMovies()">{{_('List of Movies')}} <span class="sr-only">(current)</span></button>
+                <button class="btn btn-dark" onclick="showRatings()">{{_('List of Ratings')}}</button>
+                <button class="btn btn-dark" onclick="showAccounts()">{{_('Account Management')}}</button>
+                <button class="btn btn-dark" onclick="showRecommendations()">{{_('Get Movie Recommendations')}}</button>
             </div>
 
             <div class="nav navbar-nav navbar-nav-right">
@@ -38,7 +38,7 @@
 
                 <div class="dropdown">
                     <button class="btn btn-dark dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        User Select
+                        {{_('User Select')}}
                     </button>
                     <div id="userSelector" class="dropdown-menu" role="menu" aria-labelledby="navbarDropdownMenuLink">
 
@@ -47,15 +47,15 @@
 
                 <div class="dropdown">
                     <button class="btn btn-dark dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                        <img id="languageIcon" src="static/images/uk.png" alt="Language"/>
+                        <img id="languageIcon" src="static/images/en.png" alt="Language"/>
                         <span class="caret"></span>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right" role="menu" style="min-width:0">
-                        <button class="dropdown-item language active"><img class="mr-2" src="static/images/uk-small.png" alt="English"/>English</button>
-                        <button class="dropdown-item language"><img class="mr-2" src="static/images/fr-small.png" alt="French"/>French</button>
-                        <button class="dropdown-item language"><img class="mr-2" src="static/images/de-small.png" alt="German"/>German</button>
-                        <button class="dropdown-item language"><img class="mr-2" src="static/images/es-small.png" alt="Spanish"/>Spanish</button>
-                        <button class="dropdown-item language"><img class="mr-2" src="static/images/cn-small.png" alt="Chinese"/>Chinese</button>
+                    <div id="languages" class="dropdown-menu dropdown-menu-right" role="menu" style="min-width:0">
+                        <button id="en" onclick="switchLanguage('en')" class="dropdown-item language active"><img class="mr-2" src="static/images/en-small.png" alt="English"/>{{_('English')}}</button>
+                        <button id="fr" onclick="switchLanguage('fr')" class="dropdown-item language"><img class="mr-2" src="static/images/fr-small.png" alt="French"/>{{_('French')}}</button>
+                        <button id="de" onclick="switchLanguage('de')" class="dropdown-item language"><img class="mr-2" src="static/images/de-small.png" alt="German"/>{{_('German')}}</button>
+                        <button id="es" onclick="switchLanguage('es')" class="dropdown-item language"><img class="mr-2" src="static/images/es-small.png" alt="Spanish"/>{{_('Spanish')}}</button>
+                        <button id="cn" onclick="switchLanguage('cn')" class="dropdown-item language"><img class="mr-2" src="static/images/cn-small.png" alt="Chinese"/>{{_('Chinese')}}</button>
                     </div>
                 </div>
             </div>
@@ -66,7 +66,7 @@
     <div id="pageBar" class="toolbar my-2 d-flex justify-content-center" role="toolbar" aria-label="Button group with nested dropdown">
 
         <div class="middle-text mr-2">
-            Page:
+            {{_('Page')}}:
         </div>
 
         <div id="pageButtons" class="btn-group mr-2" role="group" aria-label="Second group">
@@ -74,7 +74,7 @@
         </div>
 
         <div class="middle-text mr-2">
-            Results per page:
+            {{_('Results per page')}}:
         </div>
 
         <div class="btn-group" role="group">
@@ -95,9 +95,9 @@
         <table id="moviesTable" class="table table-striped">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Movie</th>
-                    <th>Genre(s)</th>
+                    <th>{{_('ID')}}</th>
+                    <th>{{_('Movie')}}</th>
+                    <th>{{_('Genre(s)')}}</th>
                 </tr>
             </thead>
             <tbody id="moviesTableBody">
@@ -109,9 +109,9 @@
         <table id="ratingsTable" class="table table-striped">
             <thead>
                 <tr>
-                    <th>User ID</th>
-                    <th>Movie ID</th>
-                    <th>Rating</th>
+                    <th>{{_('User ID')}}</th>
+                    <th>{{_('Movie ID')}}</th>
+                    <th>{{_('Rating')}}</th>
                 </tr>
             </thead>
             <tbody id="ratingsTableBody">
@@ -123,11 +123,11 @@
         <div class="container my-3">
             <div class="row justify-content-center">
                 <div class="col-md-9 col-lg-6">
-                    <label for="addUser">Create New User</label>
+                    <label for="addUser">{{_('Create New User')}}</label>
                     <div class="input-group">
                         <input id="addUserName" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addUser">
                         <div class="input-group-append">
-                            <button onclick="addUser()" class="btn btn-outline-dark" type="button" id="addUser">Add User</button>
+                            <button onclick="addUser()" class="btn btn-outline-dark" type="button" id="addUser">{{_('Add User')}}</button>
                         </div>
                     </div>
                 </div>
@@ -136,11 +136,11 @@
             <div id="changeOrDelete">
                 <div class="row my-3 justify-content-center">
                     <div class="col-md-9 col-lg-6">
-                        <label for="saveUsername">Change Username</label>
+                        <label for="saveUsername">{{_('Change Username')}}</label>
                         <div class="input-group">
                             <input id="nameEdit" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="saveUsername">
                             <div class="input-group-append">
-                                <button onclick="changeName()" class="btn btn-outline-dark" type="submit" id="saveUsername">Save Username</button>
+                                <button onclick="changeName()" class="btn btn-outline-dark" type="submit" id="saveUsername">{{_('Save Username')}}</button>
                             </div>
                         </div>
                     </div>
@@ -148,7 +148,7 @@
 
                 <div class="row justify-content-center">
                     <div class="col-md-9 col-lg-6">
-                        <button onclick="deleteCurrentUser()" class="btn btn-danger" id="deleteUser" style="width: 100%">Delete Current User</button>
+                        <button onclick="deleteCurrentUser()" class="btn btn-danger" id="deleteUser" style="width: 100%">{{_('Delete Current User')}}</button>
                     </div>
                 </div>
             </div>
@@ -156,7 +156,7 @@
             <div id="pleaseSignIn" class="hidden">
                 <div class="row my-3 justify-content-center">
                     <div class="col-md-9 col-lg-6" style="text-align: center;">
-                        Please select a user account from the selector in the top-left corner.
+                        {{_('Please select a user account from the selector in the top-left corner.')}}
                     </div>
                 </div>
             </div>
@@ -165,15 +165,15 @@
         <hr>
 
         <div id="userRatingsTab" class="hidden">
-            <h3>Your film reviews.</h3>
+            <h3>{{_('Your film reviews.')}}</h3>
             <div class="d-flex justify-content-center">
                 <table id="userRatingsTable" class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Movie Title</th>
-                            <th>Rating</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>{{_('Movie Title')}}</th>
+                            <th>{{_('Rating')}}</th>
+                            <th>{{_('Edit')}}</th>
+                            <th>{{_('Delete')}}</th>
                         </tr>
                     </thead>
                     <tbody id="userRatingsTableBody">
@@ -186,20 +186,20 @@
           <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="updateRatingModalLabel">Change Rating</h5>
+                <h5 class="modal-title" id="updateRatingModalLabel">{{_('Change Rating')}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
                   <div class="form-group">
-                      <label for="newRating">Enter new rating:</label>
+                      <label for="newRating">{{_('Enter new rating')}}:</label>
                       <input type="number" class="form-control" id="newRating" min="0" max="5">
                   </div>
               </div>
               <div class="modal-footer">
-                <button onclick="updateRating()" type="button" class="btn btn-secondary">Save Rating</button>
-                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                <button onclick="updateRating()" type="button" class="btn btn-secondary">{{_('Save Rating')}}</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">{{_('Close')}}</button>
               </div>
             </div>
           </div>
@@ -222,9 +222,9 @@
         <table id="recommendationsTable" class="table table-striped">
             <thead>
                 <tr>
-                    <th>Movie</th>
-                    <th>Genre(s)</th>
-                    <th>Match</th>
+                    <th>{{_('Movie')}}</th>
+                    <th>{{_('Genre(s)')}}</th>
+                    <th>{{_('Match')}}</th>
                 </tr>
             </thead>
             <tbody id="recommendationsTableBody">

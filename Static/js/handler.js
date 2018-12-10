@@ -1,17 +1,14 @@
-var activeIndex;
-var per_page;
-var currentView;
-var currentUserID;
+var activeIndex = 1;
+var per_page = 20;
+var currentView = "Movies";
+var currentUserID = -1;
 var currentUser;
 var users;
 
 window.onload = function() {
-	activeIndex = 1;
-	per_page = 20;
-	currentView = "Movies";
+	displayLanguage();
 	getUsers();
 	updateMovies(1);
-	currentUserID = -1;
 	$('#tooltip').tooltip()
 };
 
@@ -294,6 +291,37 @@ function switchUser(id) {
 	} else if (currentView === "Recommendations") {
 		showRecommendations();
 	}
+}
+
+function displayLanguage() {
+	$.ajax({
+		url: '/getCurrentLanguage',
+		type: 'GET',
+		success: function(response) {
+			var code = response;
+			var wrapper = $('#languages');
+			wrapper.find('button').removeClass('active');
+			$('#' + code).addClass('active');
+			$('#languageIcon').attr('src', 'static/images/' + code + '.png');
+		},
+		error: function(error){
+			console.log(error);
+		}
+	});
+}
+
+function switchLanguage(code) {
+    $.ajax({
+		url: '/switchLanguage',
+		type: 'POST',
+		data: {"Language": code, "ID": currentUserID},
+		success: function(response) {
+			location.reload(true);
+		},
+		error: function(error){
+			console.log(error);
+		}
+	});
 }
 
 function addUser() {
