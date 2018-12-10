@@ -1,0 +1,15 @@
+To add:
+Add movies / ratings.
+Search for movies & filter by genre.
+Internationalised genres.
+
+To add a language dictionary:
+    pybabel init -i Code/messages.pot -d Code/translations -l es
+    * Use POEDIT to complete messages.po file *
+    pybabel compile -d Code/translations
+
+To update language dictionaries:
+    pybabel extract -F Code/babel.cfg -o Code/messages.pot Code/Templates Code/server.py
+    pybabel update -i Code/messages.pot -d Code/translations
+    * Use POEDIT to complete all messages.po files *
+    pybabel compile -d Code/translations

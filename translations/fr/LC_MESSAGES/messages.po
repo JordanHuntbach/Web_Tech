@@ -1,0 +1,263 @@
+# French translations for PROJECT.
+# Copyright (C) 2018 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2018-12-10 14:28+0000\n"
+"PO-Revision-Date: 2018-12-10 14:40+0000\n"
+"Last-Translator: \n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+"X-Generator: Poedit 2.2\n"
+
+#: Code/Templates/index.html:17
+msgid "Movies"
+msgstr "Films"
+
+#: Code/Templates/index.html:28
+msgid "List of Movies"
+msgstr "Liste de films"
+
+#: Code/Templates/index.html:29
+msgid "List of Ratings"
+msgstr "Liste des évaluations"
+
+#: Code/Templates/index.html:30
+msgid "Account Management"
+msgstr "Gestion de compte"
+
+#: Code/Templates/index.html:31
+msgid "Get Movie Recommendations"
+msgstr "Obtenir des recommandations de film"
+
+#: Code/Templates/index.html:37
+msgid "Hello "
+msgstr "Bonjour "
+
+#: Code/Templates/index.html:42
+msgid "User Select"
+msgstr "Sélection de l’utilisateur"
+
+#: Code/Templates/index.html:49
+msgid "Sign Out"
+msgstr "Déconnexion"
+
+#: Code/Templates/index.html:59
+msgid "English"
+msgstr "Anglais"
+
+#: Code/Templates/index.html:60
+msgid "French"
+msgstr "Français"
+
+#: Code/Templates/index.html:61
+msgid "German"
+msgstr "Allemand"
+
+#: Code/Templates/index.html:62
+msgid "Spanish"
+msgstr "Espanol"
+
+#: Code/Templates/index.html:63
+msgid "Chinese"
+msgstr "Chinois"
+
+#: Code/Templates/index.html:74
+msgid "Page"
+msgstr "Page"
+
+#: Code/Templates/index.html:82
+msgid "Results per page"
+msgstr "Résultats par page"
+
+#: Code/Templates/index.html:103
+msgid "ID"
+msgstr "ID"
+
+#: Code/Templates/index.html:104 Code/Templates/index.html:229
+msgid "Movie"
+msgstr "Film"
+
+#: Code/Templates/index.html:105 Code/Templates/index.html:230
+msgid "Genre(s)"
+msgstr "Genre (s)"
+
+#: Code/Templates/index.html:117
+msgid "User ID"
+msgstr "Identifiant d’utilisateur"
+
+#: Code/Templates/index.html:118
+msgid "Movie ID"
+msgstr "Identifiant de film"
+
+#: Code/Templates/index.html:119 Code/Templates/index.html:179
+msgid "Rating"
+msgstr "Évaluation"
+
+#: Code/Templates/index.html:131
+msgid "Create New User"
+msgstr "Créer un nouvel utilisateur"
+
+#: Code/Templates/index.html:133 Code/Templates/index.html:146
+msgid "Username"
+msgstr "Nom d’utilisateur"
+
+#: Code/Templates/index.html:135
+msgid "Add User"
+msgstr "Ajouter un utilisateur"
+
+#: Code/Templates/index.html:144
+msgid "Change Username"
+msgstr "Changer le nom d’utilisateur"
+
+#: Code/Templates/index.html:148
+msgid "Save Username"
+msgstr "Enregistrer le nom d’utilisateur"
+
+#: Code/Templates/index.html:156
+msgid "Delete Current User"
+msgstr "Supprimer l’utilisateur actuel"
+
+#: Code/Templates/index.html:164
+msgid "Please select a user account from the selector in the top-left corner."
+msgstr ""
+"Veuillez sélectionner un compte d’utilisateur à partir du sélecteur situé "
+"dans le coin supérieur gauche."
+
+#: Code/Templates/index.html:173
+msgid "Your film reviews."
+msgstr "Vos critiques de film."
+
+#: Code/Templates/index.html:178
+msgid "Movie Title"
+msgstr "Titre du film"
+
+#: Code/Templates/index.html:180
+msgid "Edit"
+msgstr "Modifier"
+
+#: Code/Templates/index.html:181
+msgid "Delete"
+msgstr "Effacer"
+
+#: Code/Templates/index.html:194
+msgid "Change Rating"
+msgstr "Changer de cote"
+
+#: Code/Templates/index.html:201
+msgid "Enter new rating"
+msgstr "Entrez un nouveau classement"
+
+#: Code/Templates/index.html:206
+msgid "Save Rating"
+msgstr "Enregistrer la note"
+
+#: Code/Templates/index.html:207
+msgid "Close"
+msgstr "Annuler"
+
+#: Code/Templates/index.html:220
+#, python-format
+msgid ""
+"Displaying %(popular)s films. Please log in to receive personalised "
+"recommendations."
+msgstr ""
+"Affichage des films %(popular)s. Veuillez vous connecter pour recevoir des "
+"recommandations personnalisées."
+
+#: Code/Templates/index.html:221
+msgid "Films with more than 50 reviews, sorted by average rating."
+msgstr "Films avec plus de 50 critiques, triés par note moyenne."
+
+#: Code/Templates/index.html:221
+msgid "most popular"
+msgstr "le plus populaires"
+
+#: Code/Templates/index.html:231
+msgid "Match"
+msgstr "Compatibilité"
+
+#: Code/server.py:49
+msgid "Action"
+msgstr "Action"
+
+#: Code/server.py:50
+msgid "Adventure"
+msgstr "Aventure"
+
+#: Code/server.py:51
+msgid "Animation"
+msgstr "Animation"
+
+#: Code/server.py:52
+msgid "Children"
+msgstr "Enfants"
+
+#: Code/server.py:53
+msgid "Comedy"
+msgstr "Comédie"
+
+#: Code/server.py:54
+msgid "Crime"
+msgstr "Criminalité"
+
+#: Code/server.py:55
+msgid "Documentary"
+msgstr "Documentaire"
+
+#: Code/server.py:56
+msgid "Drama"
+msgstr "Drame"
+
+#: Code/server.py:57
+msgid "Fantasy"
+msgstr "Fantaisie"
+
+#: Code/server.py:58
+msgid "Film-Noir"
+msgstr "Film noir"
+
+#: Code/server.py:59
+msgid "Horror"
+msgstr "Horreur"
+
+#: Code/server.py:60
+msgid "IMAX"
+msgstr "IMAX"
+
+#: Code/server.py:61
+msgid "Musical"
+msgstr "Musical"
+
+#: Code/server.py:62
+msgid "Mystery"
+msgstr "Mystère"
+
+#: Code/server.py:63
+msgid "Romance"
+msgstr "Romance"
+
+#: Code/server.py:64
+msgid "Sci-Fi"
+msgstr "Science-fiction"
+
+#: Code/server.py:65
+msgid "Thriller"
+msgstr "Thriller"
+
+#: Code/server.py:66
+msgid "War"
+msgstr "Guerre"
+
+#: Code/server.py:67
+msgid "Western"
+msgstr "Western"
