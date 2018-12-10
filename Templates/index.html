@@ -33,15 +33,20 @@
 
             <div class="nav navbar-nav navbar-nav-right">
 
-                <span id="message" class="navbar-text">
+                <span id="message" class="navbar-text hidden">
+                    {{_('Hello ')}}<span id="username"></span>!
                 </span>
 
                 <div class="dropdown">
                     <button class="btn btn-dark dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{_('User Select')}}
                     </button>
-                    <div id="userSelector" class="dropdown-menu" role="menu" aria-labelledby="navbarDropdownMenuLink">
+                    <div class="dropdown-menu" role="menu" aria-labelledby="navbarDropdownMenuLink">
+                        <div id="userSelector">
 
+                        </div>
+                        <hr style="margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <button onclick="switchUser(-1)" class="dropdown-item" type="button">{{_('Sign Out')}}</button>
                     </div>
                 </div>
 
@@ -125,7 +130,7 @@
                 <div class="col-md-9 col-lg-6">
                     <label for="addUser">{{_('Create New User')}}</label>
                     <div class="input-group">
-                        <input id="addUserName" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addUser">
+                        <input id="addUserName" type="text" class="form-control" placeholder={{_('Username')}} aria-label="Username" aria-describedby="addUser">
                         <div class="input-group-append">
                             <button onclick="addUser()" class="btn btn-outline-dark" type="button" id="addUser">{{_('Add User')}}</button>
                         </div>
@@ -138,7 +143,7 @@
                     <div class="col-md-9 col-lg-6">
                         <label for="saveUsername">{{_('Change Username')}}</label>
                         <div class="input-group">
-                            <input id="nameEdit" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="saveUsername">
+                            <input id="nameEdit" type="text" class="form-control" placeholder={{_('Username')}} aria-label="Username" aria-describedby="saveUsername">
                             <div class="input-group-append">
                                 <button onclick="changeName()" class="btn btn-outline-dark" type="submit" id="saveUsername">{{_('Save Username')}}</button>
                             </div>
@@ -211,10 +216,9 @@
 
         <div id="notSignedIn" class="hidden">
             <div class="row my-3 justify-content-center">
-                <div class="col-md-9 col-lg-6" style="text-align: center;">
-                    Displaying
-                    <a id="tooltip" href="#" data-toggle="tooltip" title="Films with more than 50 reviews, sorted by average rating.">most popular</a>
-                    films. Please log in to receive personalised recommendations.
+                <div id="recommendationMessage" class="col-md-9 col-lg-6" style="text-align: center;">
+                    {{ gettext('Displaying %(popular)s films. Please log in to receive personalised recommendations.',
+                    popular = '<a id="tooltip" href="#" data-toggle="tooltip" title="%s">%s</a>' % (_('Films with more than 50 reviews, sorted by average rating.'), _('most popular'))) | safe}}
                 </div>
             </div>
         </div>

@@ -9,7 +9,11 @@ window.onload = function() {
 	displayLanguage();
 	getUsers();
 	updateMovies(1);
-	$('#tooltip').tooltip()
+	$('#tooltip').tooltip();
+	var div = $('#recommendationMessage');
+	var string = div.text();
+	div.text("");
+	div.html(string);
 };
 
 function getUsers() {
@@ -36,7 +40,7 @@ function updateUserSelector() {
 	if (currentUserID !== -1) {
 		wrapper.find('button:contains("' + currentUser["Name"] + '")').first().addClass('active');
 	}
-	wrapper.append('<hr style="margin-top: 0.5rem; margin-bottom: 0.5rem;"> <button onclick="switchUser(-1)" class="dropdown-item" type="button">Sign Out</button>');
+	// wrapper.append('<hr style="margin-top: 0.5rem; margin-bottom: 0.5rem;"> <button onclick="switchUser(-1)" class="dropdown-item" type="button">Sign Out</button>');
 }
 
 function updateMovies(index) {
@@ -277,12 +281,13 @@ function switchUser(id) {
     $('#userRatingsTableBody').empty();
 
     if (id === -1) {
-    	$('#message').text("");
+    	$('#message').addClass("hidden");
     	currentUser = null;
 	} else {
     	currentUser = users[id];
 		var name = currentUser["Name"];
-		$('#message').text("Hello " + name + "!");
+		$('#message').removeClass("hidden");
+		$('#username').text(name);
 		wrapper.find('button:contains("' + name + '")').first().addClass('active');
 	}
 

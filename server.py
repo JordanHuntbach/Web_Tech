@@ -1,7 +1,7 @@
 import csv
 import math
 
-from flask_babel import Babel
+from flask_babel import Babel, _
 from flask import Flask, render_template, request, jsonify
 import pandas
 import numpy
@@ -45,6 +45,34 @@ def update_language():
     return "Language updated"
 
 
+def translate_genres(genres):
+    dictionary = {
+        "Action": _('Action'),
+        "Adventure": _('Adventure'),
+        "Animation": _('Animation'),
+        "Children": _('Children'),
+        "Comedy": _('Comedy'),
+        "Crime": _('Crime'),
+        "Documentary": _('Documentary'),
+        "Drama": _('Drama'),
+        "Fantasy": _('Fantasy'),
+        "Film-Noir": _('Film-Noir'),
+        "Horror": _('Horror'),
+        "IMAX": _('IMAX'),
+        "Musical": _('Musical'),
+        "Mystery": _('Mystery'),
+        "Romance": _('Romance'),
+        "Sci-Fi": _('Sci-Fi'),
+        "Thriller": _('Thriller'),
+        "War": _('War'),
+        "Western": _('Western')
+    }
+    genre_list = []
+    for genre in genres.split("|"):
+        genre_list.append(dictionary[genre])
+    return "|".join(genre_list)
+
+
 @app.route('/')
 def output():
     return render_template('index.html')
@@ -61,7 +89,7 @@ def get_movies():
     high = low + per_page
 
     for index, row in movies_data.iloc[low:high].iterrows():
-        new = {"ID": row["movieId"], "Title": row["title"], "Genres": row["genres"]}
+        new = {"ID": row["movieId"], "Title": row["title"], "Genres": translate_genres(row["genres"])}
         result.append(new)
     return jsonify({"pages": pages, "result": result})
 
@@ -226,7 +254,7 @@ def get_recommendation():
         rating = row["rating"]
         if math.isnan(rating):
             rating = "None"
-        new = {"Movie Title": row["title"], "Genre(s)": row["genres"], "Rating": rating}
+        new = {"Movie Title": row["title"], "Genre(s)": translate_genres(row["genres"]), "Rating": rating}
         result.append(new)
     return jsonify({"pages": pages, "result": result})
 
