@@ -434,3 +434,27 @@ function updateRating() {
   		alert("Please enter a number between 0 and 5.");
 	}
 }
+
+function addRating() {
+	var rating = parseFloat($('#newRatingRating').val());
+	var movie = parseFloat($('#newRatingFilm').val());
+  	if (!isNaN(rating) && rating >= 0 && rating <= 5) {
+  		console.log("Updating rating with user " + currentUserID + " and movie " + currentMovie + " to " + rating);
+		$.ajax({
+			url: '/updateRating',
+			type: 'POST',
+			data: {"userId": currentUserID, "movieId": movie, "rating": rating},
+			success: function(){
+				$('#addRatingModal').modal('hide');
+				showAccounts();
+				alert("Rating added.");
+			},
+			error: function(error){
+				console.log(error);
+				alert("Please enter a valid movie ID.");
+			}
+		});
+	} else {
+  		alert("Please enter a number between 0 and 5.");
+	}
+}

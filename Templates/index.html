@@ -153,7 +153,7 @@
 
                 <div class="row justify-content-center">
                     <div class="col-md-9 col-lg-6">
-                        <button onclick="deleteCurrentUser()" class="btn btn-danger" id="deleteUser" style="width: 100%">{{_('Delete Current User')}}</button>
+                        <button onclick="deleteCurrentUser()" class="btn btn-danger btn-block" id="deleteUser">{{_('Delete Current User')}}</button>
                     </div>
                 </div>
             </div>
@@ -170,7 +170,23 @@
         <hr>
 
         <div id="userRatingsTab" class="hidden">
-            <h3>{{_('Your film reviews.')}}</h3>
+
+            <div class="container my-3">
+
+                <div class="row justify-content-center">
+                    <div class="col-md-9 col-lg-6">
+                        <h3>{{_('Your film reviews.')}}</h3>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-md-9 col-lg-6">
+                        <button id="newRatingButton" class="btn btn-secondary btn-block" data-toggle='modal' data-target='#addRatingModal'>{{_('Add New Rating')}}</button>
+                    </div>
+                </div>
+
+            </div>
+
             <div class="d-flex justify-content-center">
                 <table id="userRatingsTable" class="table table-striped">
                     <thead>
@@ -187,8 +203,34 @@
             </div>
         </div>
 
-        <div class="modal fade bd-example-modal-sm" id="updateRatingModal" tabindex="-1" role="dialog" aria-labelledby="updateRatingModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal fade bd-example-modal" id="addRatingModal" tabindex="-1" role="dialog" aria-labelledby="addRatingModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="addRatingModalLabel">{{_('Add New Rating')}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  <div class="form-group">
+                      <label for="newRatingFilm">{{_('Enter Film ID')}}:</label>
+                      <input type="number" class="form-control" id="newRatingFilm">
+                        <br>
+                      <label for="newRatingRating">{{_('Enter Rating')}}:</label>
+                      <input type="number" class="form-control" id="newRatingRating" min="0" max="5">
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button onclick="addRating()" type="button" class="btn btn-secondary">{{_('Save Rating')}}</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">{{_('Cancel')}}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade bd-example-modal" id="updateRatingModal" tabindex="-1" role="dialog" aria-labelledby="updateRatingModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="updateRatingModalLabel">{{_('Change Rating')}}</h5>
@@ -216,7 +258,7 @@
 
         <div id="notSignedIn" class="hidden">
             <div class="row my-3 justify-content-center">
-                <div id="recommendationMessage" class="col-md-9 col-lg-6" style="text-align: center;">
+                <div id="recommendationMessage" style="text-align: center;">
                     {{ gettext('Displaying %(popular)s films. Please log in to receive personalised recommendations.',
                     popular = '<a id="tooltip" href="#" data-toggle="tooltip" title="%s">%s</a>' % (_('Films with more than 50 reviews, sorted by average rating.'), _('most popular'))) | safe}}
                 </div>

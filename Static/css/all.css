@@ -24,3 +24,7 @@ h3 {
 #message {
     padding-left: .75rem;
 }
+
+#newRatingButton {
+    margin-bottom: .5rem;
+}

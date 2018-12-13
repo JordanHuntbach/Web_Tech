@@ -1,5 +1,6 @@
 import csv
 import math
+import time
 
 from flask_babel import Babel, _
 from flask import Flask, render_template, request, jsonify
@@ -189,14 +190,43 @@ def delete_rating():
     return "Rating successfully deleted."
 
 
+class InvalidUsage(Exception):
+    status_code = 400
+
+    def __init__(self, message, status_code=None, payload=None):
+        Exception.__init__(self)
+        self.message = message
+        if status_code is not None:
+            self.status_code = status_code
+        self.payload = payload
+
+    def to_dict(self):
+        rv = dict(self.payload or ())
+        rv['message'] = self.message
+        return rv
+
+
+@app.errorhandler(InvalidUsage)
+def handle_invalid_usage(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
+
+
 @app.route('/updateRating', methods=['POST'])
 def update_rating():
     user_id = int(request.form['userId'])
     movie_id = int(request.form['movieId'])
     rating = float(request.form['rating'])
 
-    global ratings_data, all_data
-    ratings_data.loc[(ratings_data.userId == user_id) & (ratings_data.movieId == movie_id), 'rating'] = rating
+    global ratings_data, all_data, movies_data
+    if len(movies_data.loc[movies_data['movieId'] == movie_id]) == 0:
+        raise InvalidUsage('No Movie Found', status_code=400)
+    elif len(ratings_data.loc[(ratings_data.userId == user_id) & (ratings_data.movieId == movie_id)]) == 0:
+        ratings_data.loc[len(ratings_data)] = {"userId": user_id, "movieId": movie_id,
+                                               "rating": rating, "timestamp": time.time()}
+    else:
+        ratings_data.loc[(ratings_data.userId == user_id) & (ratings_data.movieId == movie_id), 'rating'] = rating
     all_data = pandas.merge(ratings_data, movies_data, on='movieId')
 
     ratings_data.to_csv("Data/ratings.csv", index=False)

@@ -1,7 +1,6 @@
 To add:
-Add movies / ratings.
+Add movies.
 Search for movies & filter by genre.
-Internationalised genres.
 
 To add a language dictionary:
     pybabel init -i Code/messages.pot -d Code/translations -l es
